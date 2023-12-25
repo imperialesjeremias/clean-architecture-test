@@ -5,6 +5,11 @@ const app = express()
 const routes = new RouterMain(app)
 routes.routes()
 
-app.listen(3000, () => {
+
+app.get('/', (req, res) => {
+    res.send('Inicioo')
+})
+
+app.listen(3000, '0.0.0.0',  () => {
     console.log('Server on port 3000')
 })

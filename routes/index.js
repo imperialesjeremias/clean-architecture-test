@@ -4,7 +4,7 @@ const productsRouter = require('./product.routes')
 const categoriesRouter = require('./categories.routes')
 const usersRouter = require('./users.routes')
 const orderRouter = require('./order.routes')
-const { logError, boomErrorHandler, errorHandler } = require('../middlewares/errorHandle')
+const { logError, boomErrorHandler, errorHandler, ormErrorHandler } = require('../middlewares/errorHandle')
 
 class RouterMain {
     constructor(app) {
@@ -19,6 +19,7 @@ class RouterMain {
         this.app.use(logError)
         this.app.use(boomErrorHandler)
         this.app.use(errorHandler)
+        this.app.use(ormErrorHandler)
     }
 }
 

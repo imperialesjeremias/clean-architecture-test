@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const RouterMain = require('./routes/index')
 const app = express()
@@ -10,6 +11,6 @@ app.get('/', (req, res) => {
     res.send('Inicioo')
 })
 
-app.listen(3000, '0.0.0.0',  () => {
+app.listen(3000, () => {
     console.log('Server on port 3000')
 })

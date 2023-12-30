@@ -1,16 +1,18 @@
 const boom = require('@hapi/boom')
-const { models } = require('../libs/sequelize')
+const db = require('../db/models/index')
 
 class UserService {
     constructor() {}
 
-    async create() {
-        const newUser = await models.User.create(data)
+    async create(email, password, role) {
+        console.log('data service', email, password, role)
+        const data = { email, password, role }
+        const newUser = await db.User.create(data);
         return newUser
     }
 
     async find() {
-        const response = await models.User.findAll()
+        const response = await db.User.findAll()
         return response
     }
     async findOne(id) {
@@ -27,7 +29,7 @@ class UserService {
         }
     }
     async delete(id){
-        const user = await models.User.findByPk(id)
+        const user = await db.User.findByPk(id)
         await user.destroy()
         return { id }
     }

@@ -29,12 +29,13 @@ router.get('/', async (req, res, next) => {
   );
   
   router.post('/',
-    validatorHandler(createUserSchema, 'body'),
+    // validatorHandler(createUserSchema, 'body'),
     async (req, res, next) => {
       try {
-        const body = req.body;
-        const newCategory = await service.create(body);
-        res.status(201).json(newCategory);
+        const { email, password, role } = req.body;
+        console.log(email, password, role)
+        const newUser = await service.create(email, password, role);
+        res.status(201).json(newUser);
       } catch (error) {
         next(error);
       }

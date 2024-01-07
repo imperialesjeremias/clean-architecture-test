@@ -1,5 +1,5 @@
 const boom = require('@hapi/boom')
-const sequelize = require('../libs/sequelize');
+const db = require('../db/models/index')
 
 class ProductsService {
   static _productsServiceInstace = null
@@ -11,29 +11,40 @@ class ProductsService {
     return ProductsService._productsServiceInstace
   }
 
-  constructor() {
-  }
-
-  generate() {
-    
-  }
+  constructor() {}
 
   async create({ name, price, image })  {
+    const newProduct = await db.Product.create({name, price, image})
   }
 
   async find() {
-    const query = 'SELECT * FROM tasks'
-    const response = await sequelize.query(query)
-    return response.data
+    const response = await db.Product.findAll()
+    return res.status(200).json(response)
   }
 
-  findOne(id) {
+  async findOne(id) {
+    const productId = await db.Product.findByPk(id)
+    !productId && boom.notFound('Producto no encontrado')
+    return res.status(200).json(productId)
   }
 
-  update(id, change) {
+  async update(id, change) {
+    const Product = await this.findOne(id)
+    const productChange = Product.update(change)
+    return {
+      id,
+      productChange
+    }
   }
 
-  delete(id) {
+  async delete(id) {
+    const product = await this.findOne(id)
+    await product.destroy()
+    const productdelted = await this.findOne(id)
+    if (productdelted) {
+      return boom.conflict('El product no se ha podido borrar')
+    }
+    return res.status(200).json('Producto eliminado')
   }
 }
 

@@ -12,7 +12,9 @@ class UserService {
     }
 
     async find() {
-        const response = await db.User.findAll()
+        const response = await db.User.findAll({
+            include: ['customer']
+        })
         return response
     }
     async findOne(id) {

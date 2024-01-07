@@ -13,6 +13,7 @@ module.exports = {
       onDelete: 'SET NULL',
       unique: true
     })
+    
   },
 
   async down (queryInterface, Sequelize) {

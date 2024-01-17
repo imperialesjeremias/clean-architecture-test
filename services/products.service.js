@@ -18,7 +18,9 @@ class ProductsService {
   }
 
   async find() {
-    const response = await db.Product.findAll()
+    const response = await db.Product.findAll({
+      include: ['Category']
+    })
     return res.status(200).json(response)
   }
 

@@ -2,13 +2,15 @@
     const router = express.Router()
     const ProductsService = require('../services/products.service')
     const validatorHandler = require('../middlewares/validatorHandle')
-    const { createProductSchema, updateProductSchema, getProductSchema } = require('../dto/product.dto')
+    const { createProductSchema, updateProductSchema, getProductSchema, queryProductSchema } = require('../dto/product.dto')
 
     const service = new ProductsService()
     
-    router.get('/', async (req, res, next) => {
+    router.get('/',
+    validatorHandler(queryProductSchema, 'query'),
+    async (req, res, next) => {
         try {
-          const products = await service.find();
+          const products = await service.find(req.query);
           res.json(products);
         } catch (error) {
           next(error);

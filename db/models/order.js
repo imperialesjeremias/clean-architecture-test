@@ -9,6 +9,12 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Customer, {
         as: 'Customer',
       })
+      this.belongsToMany(models.Product, {
+        as: 'items',
+        through: models.OrderWithProducts,
+        foreignKey: 'order_id',
+        otherKey: 'product_id'
+      })
     }
   }
   Order.init({
@@ -16,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Order',
-    tableName: 'Order',
+    tableName: 'Orders',
     timestamps: false
   });
   return Order;
